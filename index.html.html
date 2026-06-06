@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royal Ceylon Tours — Sri Lanka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --deep: #0D1B2A;
+    --deep2: #152233;
+    --cream: #F5EDD8;
+    --ruby: #8B1A1A;
+    --text: #E8DFD0;
+    --muted: #8A7F72;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Jost', sans-serif; background: var(--deep); color: var(--text); overflow-x: hidden; cursor: none; }
+
+  /* ── PRELOADER ── */
+  #preloader {
+    position: fixed; inset: 0; background: var(--deep);
+    z-index: 10000; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 1.5rem;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+  #preloader.hidden { opacity: 0; visibility: hidden; }
+  .preloader-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; font-weight: 300; letter-spacing: 0.15em;
+    color: var(--gold); opacity: 0;
+    animation: preloaderFade 0.8s 0.3s forwards;
+  }
+  .preloader-logo em { font-style: italic; color: var(--cream); }
+  .preloader-line {
+    width: 0; height: 1px; background: var(--gold);
+    animation: preloaderLine 1.2s 0.5s ease forwards;
+  }
+  .preloader-sub {
+    font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--muted); opacity: 0;
+    animation: preloaderFade 0.8s 1s forwards;
+  }
+  @keyframes preloaderFade { to { opacity: 1; } }
+  @keyframes preloaderLine { to { width: 220px; } }
+
+  /* ── CURSOR ── */
+  .cursor {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--gold);
+    position: fixed; top: 0; left: 0; pointer-events: none;
+    z-index: 9999; transform: translate(-50%,-50%);
+    transition: width 0.3s, height 0.3s, background 0.3s;
+  }
+  .cursor-ring {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.7);
+    position: fixed; top: 0; left: 0; pointer-events: none;
+    z-index: 9998; transform: translate(-50%,-50%);
+    transition: all 0.25s ease; opacity: 0.6;
+  }
+  .cursor.hover { width: 16px; height: 16px; background: var(--gold-light); }
+  .cursor-ring.hover { width: 56px; height: 56px; opacity: 1; }
+
+  /* ── FLOATING PARTICLES ── */
+  #particles { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+  .particle {
+    position: absolute; border-radius: 50%;
+    background: rgba(201,168,76,0.15);
+    animation: particleFloat linear infinite;
+  }
+  @keyframes particleFloat {
+    0% { transform: translateY(110vh) scale(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.6rem 4rem;
+    background: transparent;
+    transition: background 0.5s ease, padding 0.5s ease, box-shadow 0.5s;
+  }
+  nav.scrolled {
+    background: rgba(13,27,42,0.97);
+    backdrop-filter: blur(16px);
+    padding: 1rem 4rem;
+    box-shadow: 0 1px 0 rgba(201,168,76,0.12);
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 300; letter-spacing: 0.1em;
+    color: var(--gold); text-decoration: none;
+    display: flex; flex-direction: column; line-height: 1.1;
+  }
+  .logo-top { font-size: 0.6rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--muted); }
+  .logo-main em { font-style: italic; color: var(--cream); }
+  nav ul { display: flex; gap: 2.5rem; list-style: none; }
+  nav ul a {
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text); text-decoration: none; opacity: 0.75;
+    transition: opacity 0.2s, color 0.2s; position: relative;
+  }
+  nav ul a::after {
+    content: ''; position: absolute; left: 0; bottom: -3px;
+    width: 0; height: 1px; background: var(--gold);
+    transition: width 0.3s ease;
+  }
+  nav ul a:hover { opacity: 1; color: var(--gold); }
+  nav ul a:hover::after { width: 100%; }
+  .nav-cta {
+    background: transparent; border: 1px solid var(--gold);
+    color: var(--gold) !important; padding: 0.55rem 1.5rem !important;
+    border-radius: 2px; letter-spacing: 0.15em !important;
+    opacity: 1 !important; transition: background 0.3s, color 0.3s !important;
+  }
+  .nav-cta::after { display: none !important; }
+  .nav-cta:hover { background: var(--gold) !important; color: var(--deep) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    height: 100vh; min-height: 700px; position: relative;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .hero-slides { position: absolute; inset: 0; }
+  .hero-slide {
+    position: absolute; inset: 0; background-size: cover; background-position: center;
+    opacity: 0; transition: opacity 2s ease;
+    transform: scale(1.04);
+    animation: kenBurns 8s ease-in-out infinite alternate;
+  }
+  .hero-slide.active { opacity: 1; }
+  @keyframes kenBurns {
+    from { transform: scale(1.04) translate(0,0); }
+    to   { transform: scale(1.0) translate(-1%, 0.5%); }
+  }
+  .hero-slide::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(13,27,42,0.55) 0%, rgba(13,27,42,0.2) 50%, rgba(13,27,42,0.75) 100%);
+  }
+  .hero-slide::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(13,27,42,0.95) 100%);
+    z-index: 1;
+  }
+
+  /* Animated golden diagonal stripe */
+  .hero-stripe {
+    position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+    background: linear-gradient(105deg, transparent 0%, rgba(201,168,76,0.04) 40%, transparent 80%);
+    z-index: 2; animation: stripeMove 6s ease-in-out infinite alternate;
+  }
+  @keyframes stripeMove { to { left: 60%; } }
+
+  .hero-content {
+    position: relative; z-index: 5; text-align: center; padding: 0 2rem;
+    opacity: 0; transform: translateY(30px);
+    animation: heroReveal 1.4s 1.5s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  @keyframes heroReveal { to { opacity: 1; transform: translateY(0); } }
+
+  .hero-eyebrow {
+    font-size: 0.68rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.8rem;
+    opacity: 0; animation: fadeUp 1s 1.8s forwards;
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: ''; display: block; width: 40px; height: 1px; background: var(--gold); opacity: 0.5;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 9vw, 8.5rem);
+    font-weight: 300; line-height: 0.9; color: var(--cream);
+    margin-bottom: 0.3rem;
+    opacity: 0; animation: fadeUp 1s 2s forwards;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold-light); display: block; }
+  .hero-divider {
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+    margin: 1.4rem auto;
+    opacity: 0; animation: fadeUp 1s 2.2s forwards;
+  }
+  .hero-divider::before, .hero-divider::after {
+    content: ''; display: block; width: 80px; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold));
+  }
+  .hero-divider::after { background: linear-gradient(to left, transparent, var(--gold)); }
+  .hero-divider-gem { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); }
+  .hero-sub {
+    font-size: 1rem; font-weight: 200; letter-spacing: 0.06em;
+    color: rgba(232,223,208,0.75); max-width: 500px; margin: 0 auto 2.8rem;
+    line-height: 1.7;
+    opacity: 0; animation: fadeUp 1s 2.4s forwards;
+  }
+  .hero-btns {
+    display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 1s 2.6s forwards;
+  }
+  .hero-scroll-indicator {
+    position: absolute; bottom: 2.5rem; left: 50%;
+    transform: translateX(-50%); z-index: 5;
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    opacity: 0; animation: fadeUp 1s 3s forwards;
+  }
+  .hero-scroll-indicator span {
+    font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted);
+  }
+  .scroll-mouse {
+    width: 22px; height: 34px; border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 11px; display: flex; justify-content: center; padding-top: 5px;
+  }
+  .scroll-wheel {
+    width: 3px; height: 6px; background: var(--gold); border-radius: 2px;
+    animation: scrollWheel 1.8s infinite;
+  }
+  @keyframes scrollWheel {
+    0%,100% { transform: translateY(0); opacity: 1; }
+    80% { transform: translateY(10px); opacity: 0; }
+  }
+
+  /* Slide counter */
+  .slide-counter {
+    position: absolute; right: 3rem; bottom: 2.5rem; z-index: 5;
+    display: flex; align-items: center; gap: 0.8rem;
+    opacity: 0; animation: fadeUp 1s 3.2s forwards;
+  }
+  .slide-counter-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; font-weight: 300; color: var(--gold); line-height: 1;
+  }
+  .slide-counter-total { font-size: 0.7rem; color: var(--muted); align-self: flex-end; padding-bottom: 0.4rem; }
+  .slide-dots { display: flex; flex-direction: column; gap: 5px; }
+  .slide-dot {
+    width: 2px; height: 20px; background: rgba(201,168,76,0.3);
+    border-radius: 2px; transition: background 0.4s, height 0.4s;
+    cursor: pointer;
+  }
+  .slide-dot.active { background: var(--gold); height: 32px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── BTN STYLES ── */
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: var(--gold); color: var(--deep);
+    padding: 1rem 2.2rem; font-size: 0.73rem; letter-spacing: 0.2em;
+    text-transform: uppercase; font-family: 'Jost', sans-serif; font-weight: 500;
+    border: none; border-radius: 2px; text-decoration: none; cursor: none;
+    transition: background 0.3s, transform 0.3s; position: relative; overflow: hidden;
+  }
+  .btn-primary::after {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(255,255,255,0.15); transform: translateX(-101%);
+    transition: transform 0.4s ease;
+  }
+  .btn-primary:hover::after { transform: translateX(0); }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: transparent; color: var(--cream);
+    padding: 1rem 2.2rem; font-size: 0.73rem; letter-spacing: 0.2em;
+    text-transform: uppercase; font-family: 'Jost', sans-serif; font-weight: 300;
+    border: 1px solid rgba(232,223,208,0.35); border-radius: 2px;
+    text-decoration: none; cursor: none;
+    transition: border-color 0.3s, color 0.3s, transform 0.3s;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 8rem 0; }
+  .container { max-width: 1300px; margin: 0 auto; padding: 0 4rem; }
+  .section-label {
+    font-size: 0.63rem; letter-spacing: 0.38em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold); }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 5vw, 4.2rem); font-weight: 300;
+    line-height: 1.05; color: var(--cream); margin-bottom: 1.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--gold-light); }
+
+  /* Scroll reveal variants */
+  .reveal { opacity: 0; transform: translateY(45px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left { opacity: 0; transform: translateX(-45px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right { opacity: 0; transform: translateX(45px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+  .reveal-scale { opacity: 0; transform: scale(0.92); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+  /* ── MARQUEE STRIP ── */
+  .marquee-strip {
+    background: var(--gold); padding: 0.9rem 0; overflow: hidden;
+    border-top: 1px solid rgba(201,168,76,0.3);
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+  }
+  .marquee-track {
+    display: flex; gap: 3rem; width: max-content;
+    animation: marqueeScroll 25s linear infinite;
+  }
+  .marquee-item {
+    font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--deep); font-weight: 500; white-space: nowrap;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .marquee-gem { width: 5px; height: 5px; background: var(--deep); transform: rotate(45deg); opacity: 0.5; }
+  @keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── ABOUT STRIP ── */
+  .about-strip { border-top: 1px solid rgba(201,168,76,0.12); border-bottom: 1px solid rgba(201,168,76,0.12); padding: 4rem 0; background: var(--deep2); }
+  .strip-inner { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0; }
+  .strip-item { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; text-align: center; padding: 1rem 4rem; }
+  .strip-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300;
+    color: var(--gold); line-height: 1;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .strip-label { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+  .strip-divider { width: 1px; height: 70px; background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.25), transparent); }
+
+  /* ── EXPERIENCES ── */
+  .exp-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 4rem; }
+  .exp-card { position: relative; overflow: hidden; aspect-ratio: 3/4; cursor: none; }
+  .exp-card:first-child { grid-row: span 2; aspect-ratio: auto; }
+  .exp-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94); }
+  .exp-card:hover .exp-img { transform: scale(1.1); }
+  .exp-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(13,27,42,0.97) 0%, rgba(13,27,42,0.2) 55%, transparent 100%);
+    display: flex; flex-direction: column; justify-content: flex-end; padding: 2.5rem;
+    transition: background 0.5s;
+  }
+  .exp-card:hover .exp-overlay { background: linear-gradient(to top, rgba(13,27,42,0.99) 0%, rgba(13,27,42,0.6) 60%, rgba(13,27,42,0.1) 100%); }
+  .exp-tag { font-size: 0.58rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+  .exp-name { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 300; color: var(--cream); line-height: 1.1; margin-bottom: 0.5rem; }
+  .exp-desc {
+    font-size: 0.8rem; font-weight: 200; color: rgba(232,223,208,0.65); max-width: 300px;
+    transform: translateY(12px); opacity: 0; transition: opacity 0.45s 0.05s, transform 0.45s 0.05s; line-height: 1.65;
+  }
+  .exp-card:hover .exp-desc { opacity: 1; transform: translateY(0); }
+  .exp-line {
+    width: 0; height: 1px; background: var(--gold); margin-bottom: 0.8rem;
+    transition: width 0.5s ease;
+  }
+  .exp-card:hover .exp-line { width: 40px; }
+
+  /* ── ATTRACTIONS MAP GRID ── */
+  .attractions { background: var(--deep2); }
+  .attr-intro { max-width: 580px; }
+  .attr-intro p { font-size: 1rem; font-weight: 200; line-height: 1.85; color: rgba(232,223,208,0.65); margin-top: 1rem; }
+
+  .attr-grid {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 1.5px; margin-top: 4rem;
+    background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.08);
+  }
+  .attr-card {
+    position: relative; overflow: hidden; aspect-ratio: 3/4; cursor: none;
+    background: var(--deep2);
+  }
+  .attr-card.wide { grid-column: span 2; aspect-ratio: 2/1.5; }
+  .attr-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease, filter 0.5s; filter: saturate(0.85); }
+  .attr-card:hover .attr-img { transform: scale(1.08); filter: saturate(1.1); }
+  .attr-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(13,27,42,0.95) 0%, rgba(13,27,42,0.25) 55%, transparent 100%);
+    display: flex; flex-direction: column; justify-content: flex-end; padding: 1.8rem;
+    transition: background 0.4s;
+  }
+  .attr-card:hover .attr-overlay { background: linear-gradient(to top, rgba(13,27,42,0.98) 0%, rgba(13,27,42,0.5) 65%, rgba(13,27,42,0.05) 100%); }
+  .attr-badge {
+    position: absolute; top: 1rem; right: 1rem;
+    font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); border: 1px solid rgba(201,168,76,0.5);
+    padding: 0.2rem 0.6rem; border-radius: 2px;
+    background: rgba(13,27,42,0.7); backdrop-filter: blur(4px);
+  }
+  .attr-tag { font-size: 0.58rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+  .attr-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; color: var(--cream); line-height: 1.15; margin-bottom: 0.4rem; }
+  .attr-desc {
+    font-size: 0.75rem; font-weight: 200; color: rgba(232,223,208,0.6); line-height: 1.6;
+    max-height: 0; overflow: hidden; transition: max-height 0.5s ease, opacity 0.4s;
+    opacity: 0;
+  }
+  .attr-card:hover .attr-desc { max-height: 80px; opacity: 1; }
+
+  /* ── DESTINATIONS LIST ── */
+  .destinations { background: var(--deep); }
+  .dest-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; margin-top: 5rem; align-items: start; }
+  .dest-list { display: flex; flex-direction: column; }
+  .dest-item {
+    display: flex; align-items: flex-start; gap: 1.5rem;
+    padding: 1.8rem 0; border-bottom: 1px solid rgba(201,168,76,0.08);
+    cursor: none; transition: border-color 0.3s, padding-left 0.3s; position: relative;
+  }
+  .dest-item:hover { border-color: rgba(201,168,76,0.35); padding-left: 0.5rem; }
+  .dest-item::before {
+    content: ''; position: absolute; left: -1px; top: 0; bottom: 0;
+    width: 0; background: var(--gold); transition: width 0.3s ease;
+  }
+  .dest-item:hover::before { width: 2px; }
+  .dest-num { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--gold); opacity: 0.5; min-width: 28px; padding-top: 0.2rem; }
+  .dest-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 400; color: var(--cream); margin-bottom: 0.35rem; }
+  .dest-info p { font-size: 0.78rem; font-weight: 200; color: var(--muted); line-height: 1.65; }
+  .dest-badge { margin-left: auto; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(201,168,76,0.25); padding: 0.2rem 0.6rem; border-radius: 2px; white-space: nowrap; align-self: center; flex-shrink: 0; }
+  .dest-map-area { position: sticky; top: 9rem; }
+  .dest-img-stack { position: relative; }
+  .dest-img-main { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 4px; transition: opacity 0.5s ease; }
+  .dest-img-accent { position: absolute; bottom: -2rem; right: -2rem; width: 55%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; border: 4px solid var(--deep); transition: opacity 0.5s ease; }
+  .dest-img-label {
+    position: absolute; top: 1rem; left: 1rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 0.75rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);
+    background: rgba(13,27,42,0.85); padding: 0.4rem 0.8rem;
+    border-left: 2px solid var(--gold); border-radius: 1px;
+    backdrop-filter: blur(4px); transition: opacity 0.4s;
+  }
+
+  /* ── WHY ── */
+  .why { background: var(--deep2); }
+  .why-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 4rem; background: rgba(201,168,76,0.06); }
+  .why-card {
+    padding: 3rem 2.5rem; position: relative; overflow: hidden;
+    background: var(--deep2); transition: transform 0.4s, background 0.4s;
+  }
+  .why-card:hover { transform: translateY(-6px); background: rgba(21,34,51,0.8); }
+  .why-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .why-card:hover::before { opacity: 1; }
+  .why-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--gold), var(--gold-light)); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
+  .why-card:hover::after { transform: scaleX(1); }
+  .why-icon { font-size: 2.2rem; margin-bottom: 1.8rem; display: block; filter: drop-shadow(0 0 8px rgba(201,168,76,0.3)); }
+  .why-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 400; color: var(--cream); margin-bottom: 0.75rem; }
+  .why-card p { font-size: 0.8rem; font-weight: 200; color: var(--muted); line-height: 1.85; }
+
+  /* ── GALLERY ── */
+  .gallery { background: var(--deep); overflow: hidden; }
+  .gallery-row { display: flex; gap: 1rem; width: max-content; margin-bottom: 1rem; }
+  .gallery-row:nth-child(2) { animation: galleryLeft 35s linear infinite; }
+  .gallery-row:nth-child(1) { animation: galleryRight 30s linear infinite; }
+  @keyframes galleryLeft  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes galleryRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  .gallery-row:hover { animation-play-state: paused; }
+  .gallery-img { height: 260px; width: 220px; object-fit: cover; flex-shrink: 0; border-radius: 3px; filter: saturate(0.75) brightness(0.9); transition: filter 0.4s, transform 0.4s; }
+  .gallery-img:hover { filter: saturate(1.15) brightness(1); transform: scale(1.03); }
+
+  /* ── TESTIMONIAL ── */
+  .testimonials { background: var(--deep2); }
+  .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; margin-top: 4rem; }
+  .testi-card {
+    padding: 2.5rem; border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 4px; position: relative; overflow: hidden;
+    transition: border-color 0.4s, transform 0.4s;
+  }
+  .testi-card:hover { border-color: rgba(201,168,76,0.35); transform: translateY(-4px); }
+  .testi-quote {
+    font-family: 'Cormorant Garamond', serif; font-size: 5rem; line-height: 1;
+    color: rgba(201,168,76,0.12); position: absolute; top: 0.5rem; left: 1.5rem;
+    pointer-events: none;
+  }
+  .testi-text { font-size: 0.88rem; font-weight: 200; line-height: 1.8; color: rgba(232,223,208,0.75); margin-bottom: 1.5rem; font-style: italic; }
+  .testi-author { display: flex; align-items: center; gap: 0.8rem; }
+  .testi-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-light)); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--deep); flex-shrink: 0; }
+  .testi-name { font-size: 0.8rem; letter-spacing: 0.1em; color: var(--cream); }
+  .testi-country { font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; }
+  .testi-stars { color: var(--gold); font-size: 0.7rem; margin-bottom: 1rem; letter-spacing: 0.1em; }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--deep); text-align: center; padding: 10rem 0;
+    position: relative; overflow: hidden;
+  }
+  .cta-bg-text {
+    position: absolute; font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(7rem,18vw,18rem); font-weight: 300;
+    color: rgba(201,168,76,0.035); top: 50%; left: 50%;
+    transform: translate(-50%,-50%); white-space: nowrap;
+    pointer-events: none; letter-spacing: 0.1em;
+    animation: bgTextDrift 20s ease-in-out infinite alternate;
+  }
+  @keyframes bgTextDrift { from { transform: translate(-50%,-50%) scale(1); } to { transform: translate(-48%,-52%) scale(1.04); } }
+  .cta-rings {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%); pointer-events: none;
+  }
+  .cta-ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.06);
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    animation: ringExpand 6s linear infinite;
+  }
+  .cta-ring:nth-child(1) { width: 300px; height: 300px; animation-delay: 0s; }
+  .cta-ring:nth-child(2) { width: 500px; height: 500px; animation-delay: 2s; }
+  .cta-ring:nth-child(3) { width: 700px; height: 700px; animation-delay: 4s; }
+  @keyframes ringExpand {
+    0%   { opacity: 0; transform: translate(-50%,-50%) scale(0.8); }
+    30%  { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%,-50%) scale(1.2); }
+  }
+  .cta-section .section-title { margin-bottom: 1rem; }
+  .cta-section p { font-size: 1rem; font-weight: 200; color: rgba(232,223,208,0.6); margin-bottom: 3rem; line-height: 1.75; }
+  .inquire-btn {
+    display: inline-flex; align-items: center; gap: 1rem;
+    background: var(--gold); color: var(--deep);
+    padding: 1.3rem 3.2rem; font-size: 0.78rem; letter-spacing: 0.25em;
+    text-transform: uppercase; font-family: 'Jost', sans-serif; font-weight: 500;
+    border: none; border-radius: 2px; text-decoration: none; cursor: none;
+    transition: background 0.3s, transform 0.3s;
+    position: relative; overflow: hidden;
+    animation: pulseCta 3s infinite;
+  }
+  @keyframes pulseCta {
+    0%,100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+    50%      { box-shadow: 0 0 0 20px rgba(201,168,76,0); }
+  }
+  .inquire-btn::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.15); transform: translateX(-101%); transition: transform 0.4s; }
+  .inquire-btn:hover::after { transform: translateX(0); }
+  .inquire-btn:hover { transform: translateY(-3px); background: var(--gold-light); }
+  .wa-icon { width: 22px; height: 22px; }
+
+  /* ── FOOTER ── */
+  footer { background: #06101a; padding: 5rem 0 2rem; border-top: 1px solid rgba(201,168,76,0.1); }
+  .footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3.5rem; }
+  .footer-brand .logo { display: inline-block; margin-bottom: 1rem; }
+  .footer-brand p { font-size: 0.78rem; font-weight: 200; color: var(--muted); line-height: 1.85; max-width: 280px; margin-bottom: 1.5rem; }
+  .footer-social { display: flex; gap: 1rem; }
+  .social-btn {
+    width: 34px; height: 34px; border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: var(--muted); font-size: 0.75rem; text-decoration: none;
+    transition: border-color 0.3s, color 0.3s, transform 0.3s;
+  }
+  .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+  .footer-col h4 { font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+  .footer-col ul a { font-size: 0.78rem; font-weight: 200; color: var(--muted); text-decoration: none; transition: color 0.2s, padding-left 0.2s; }
+  .footer-col ul a:hover { color: var(--cream); padding-left: 4px; }
+  .footer-bottom { padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.04); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-bottom p { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.1em; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .attr-grid { grid-template-columns: repeat(2,1fr); }
+    .attr-card.wide { grid-column: span 2; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .why-grid { grid-template-columns: 1fr 1fr; }
+    .testi-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; } nav.scrolled { padding: 0.9rem 2rem; }
+    nav ul { display: none; }
+    .container { padding: 0 2rem; }
+    .exp-grid { grid-template-columns: 1fr 1fr; }
+    .exp-card:first-child { grid-row: span 1; aspect-ratio: 3/4; }
+    .dest-layout { grid-template-columns: 1fr; }
+    .dest-map-area { display: none; }
+    .why-grid { grid-template-columns: 1fr; }
+    .strip-item { padding: 1rem 2rem; }
+    .strip-divider { display: none; }
+    .slide-counter { display: none; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+  }
+  @media (max-width: 600px) {
+    .exp-grid { grid-template-columns: 1fr; }
+    .attr-grid { grid-template-columns: 1fr; }
+    .attr-card.wide { grid-column: span 1; aspect-ratio: 3/4; }
+    .testi-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="preloader-logo">Royal <em>Ceylon</em> Tours</div>
+  <div class="preloader-line"></div>
+  <div class="preloader-sub">Sri Lanka's Premier Travel Experience</div>
+</div>
+
+<!-- PARTICLES -->
+<div id="particles"></div>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="logo">
+    <span class="logo-top">Est. Sri Lanka</span>
+    <span class="logo-main">Royal <em>Ceylon</em> Tours</span>
+  </a>
+  <ul>
+    <li><a href="#experiences">Experiences</a></li>
+    <li><a href="#attractions">Attractions</a></li>
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="https://wa.me/97433095774" target="_blank" class="nav-cta">Inquire Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1566552881560-0be862a7c445?w=1800&q=85')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=1800&q=85')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1800&q=85')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1573678168491-ea99218f6b4e?w=1800&q=85')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=1800&q=85')"></div>
+  </div>
+  <div class="hero-stripe"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">The Pearl of the Indian Ocean</p>
+    <h1>Royal <em>Ceylon</em><br>Tours</h1>
+    <div class="hero-divider"><div class="hero-divider-gem"></div></div>
+    <p class="hero-sub">Bespoke journeys through ancient kingdoms, emerald highlands, sacred temples and golden shores of Sri Lanka.</p>
+    <div class="hero-btns">
+      <a href="#attractions" class="btn-primary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Explore Sri Lanka
+      </a>
+      <a href="https://wa.me/97433095774?text=Hello%20Royal%20Ceylon%20Tours!%20I%20am%20interested%20in%20a%20tour%20to%20Sri%20Lanka." target="_blank" class="btn-outline">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat on WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-scroll-indicator">
+    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+    <span>Scroll</span>
+  </div>
+
+  <div class="slide-counter">
+    <div class="slide-dots" id="slideDots">
+      <div class="slide-dot active"></div>
+      <div class="slide-dot"></div>
+      <div class="slide-dot"></div>
+      <div class="slide-dot"></div>
+      <div class="slide-dot"></div>
+    </div>
+    <div>
+      <div class="slide-counter-num" id="slideNum">01</div>
+      <div class="slide-counter-total">/ 05</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <div class="marquee-item"><div class="marquee-gem"></div> Sigiriya Rock Fortress</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Temple of the Tooth</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Yala National Park</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Ella Nine Arch Bridge</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Galle Fort</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Mirissa Whale Watch</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Anuradhapura</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Adam's Peak</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Nuwara Eliya Tea Trails</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Trincomalee Beaches</div>
+    <!-- duplicate -->
+    <div class="marquee-item"><div class="marquee-gem"></div> Sigiriya Rock Fortress</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Temple of the Tooth</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Yala National Park</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Ella Nine Arch Bridge</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Galle Fort</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Mirissa Whale Watch</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Anuradhapura</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Adam's Peak</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Nuwara Eliya Tea Trails</div>
+    <div class="marquee-item"><div class="marquee-gem"></div> Trincomalee Beaches</div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="about-strip">
+  <div class="container">
+    <div class="strip-inner">
+      <div class="strip-item reveal"><div class="strip-num" data-count="800">0</div><div class="strip-label">Happy Travellers</div></div>
+      <div class="strip-divider"></div>
+      <div class="strip-item reveal"><div class="strip-num" data-count="30">0</div><div class="strip-label">Curated Destinations</div></div>
+      <div class="strip-divider"></div>
+      <div class="strip-item reveal"><div class="strip-num" data-count="12">0</div><div class="strip-label">Years of Expertise</div></div>
+      <div class="strip-divider"></div>
+      <div class="strip-item reveal"><div class="strip-num">100%</div><div class="strip-label">Personalised Tours</div></div>
+      <div class="strip-divider"></div>
+      <div class="strip-item reveal"><div class="strip-num" data-count="9">0</div><div class="strip-label">UNESCO Sites Covered</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCES -->
+<section class="experiences" id="experiences">
+  <div class="container">
+    <p class="section-label reveal">Curated Journeys</p>
+    <h2 class="section-title reveal">Extraordinary <em>Experiences</em><br>Await You</h2>
+  </div>
+  <div class="exp-grid">
+    <div class="exp-card reveal-scale">
+      <img class="exp-img" src="https://images.unsplash.com/photo-1568084680786-a84f91d1153c?w=900&q=80" alt="Cultural" loading="lazy">
+      <div class="exp-overlay">
+        <span class="exp-tag">Heritage</span>
+        <div class="exp-line"></div>
+        <h3 class="exp-name">Cultural &amp; Heritage Tours</h3>
+        <p class="exp-desc">Walk through UNESCO kingdoms and sacred Buddhist temples standing for over two millennia — living history at every step.</p>
+      </div>
+    </div>
+    <div class="exp-card reveal-scale">
+      <img class="exp-img" src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=700&q=80" alt="Beach" loading="lazy">
+      <div class="exp-overlay">
+        <span class="exp-tag">Coastal</span>
+        <div class="exp-line"></div>
+        <h3 class="exp-name">Beach Escapes</h3>
+        <p class="exp-desc">Sun-kissed shores from the south's surf breaks to the east's calm turquoise lagoons and coral reefs.</p>
+      </div>
+    </div>
+    <div class="exp-card reveal-scale">
+      <img class="exp-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80" alt="Wildlife" loading="lazy">
+      <div class="exp-overlay">
+        <span class="exp-tag">Adventure</span>
+        <div class="exp-line"></div>
+        <h3 class="exp-name">Wildlife Safaris</h3>
+        <p class="exp-desc">Track leopards, elephants, sloth bears and exotic birds across pristine national parks.</p>
+      </div>
+    </div>
+    <div class="exp-card reveal-scale">
+      <img class="exp-img" src="https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=700&q=80" alt="Tea" loading="lazy">
+      <div class="exp-overlay">
+        <span class="exp-tag">Highlands</span>
+        <div class="exp-line"></div>
+        <h3 class="exp-name">Tea Country Trails</h3>
+        <p class="exp-desc">Wander misty estates, ride the famous hill-country train and breathe the cool mountain air of Nuwara Eliya.</p>
+      </div>
+    </div>
+    <div class="exp-card reveal-scale">
+      <img class="exp-img" src="https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?w=700&q=80" alt="Food" loading="lazy">
+      <div class="exp-overlay">
+        <span class="exp-tag">Culinary</span>
+        <div class="exp-line"></div>
+        <h3 class="exp-name">Spice &amp; Flavour Journeys</h3>
+        <p class="exp-desc">Explore spice gardens, vibrant bazaars and hands-on cooking classes — a feast for all the senses.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ATTRACTIONS GRID -->
+<section class="attractions" id="attractions">
+  <div class="container">
+    <div class="attr-intro reveal">
+      <p class="section-label">Must-See Wonders</p>
+      <h2 class="section-title">Sri Lanka's Most <em>Famous</em><br>Attractions</h2>
+      <p>From ancient rock citadels to whispering tea fields, thundering waterfalls and whale-watched shores — one island, infinite wonders.</p>
+    </div>
+  </div>
+
+  <div class="container" style="padding-top:0;">
+    <div class="attr-grid">
+
+      <!-- Row 1 -->
+      <div class="attr-card wide">
+        <img class="attr-img" src="https://images.unsplash.com/photo-1573678168491-ea99218f6b4e?w=900&q=80" alt="Sigiriya">
+        <div class="attr-overlay">
+          <span class="attr-badge">UNESCO ★★★★★</span>
+          <span class="attr-tag">Central Province</span>
+          <h3 class="attr-name">Sigiriya Rock Fortress</h3>
+          <p class="attr-desc">The legendary 5th-century sky palace rising 200m above the jungle — frescoes, water gardens and panoramic views that will leave you breathless.</p>
+        </div>
+      </div>
+      <div class="attr-card">
+        <img class="attr-img" src="https://images.unsplash.com/photo-1606914501449-5a96b6ce24ca?w=700&q=80" alt="Temple of Tooth">
+        <div class="attr-overlay">
+          <span class="attr-badge">UNESCO ★★★★★</span>
+          <span class="attr-tag">Kandy</span>
+          <h3 class="attr-name">Temple of the Sacred Tooth</h3>
+          <p class="attr-desc">Sri Lanka's holiest Buddhist relic, set within a moat-ringed palace complex in lush hill-country Kandy.</p>
+        </div>
+      </div>
+      <div class="attr-card">
+        <img class="attr-img" src="https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=700&q=80" alt="Galle Fort">
+        <div class="attr-overlay">
+          <span class="attr-badge">UNESCO ★★★★★</span>
+          <span class="attr-tag">Southern Province</span>
+          <h3 class="attr-name">Galle Fort</h3>
+          <p class="attr-desc">A beautifully preserved Dutch colonial walled city with cobblestone streets, boutique galleries and stunning ocean ramparts.</p>
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="attr-card">
+        <img class="attr-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80" alt="Yala">
+        <div class="attr-overlay">
+          <span class="attr-badge">National Park ★★★★★</span>
+          <span class="attr-tag">Southern Province</span>
+          <h3 class="attr-name">Yala National Park</h3>
+          <p class="attr-desc">World's highest leopard density, plus elephants, crocodiles, peacocks — Africa-style safari on a tropical island.</p>
+        </div>
+      </div>
+      <div class="attr-card">
+        <img class="attr-img" src="https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=700&q=80" alt="Ella">
+        <div class="attr-overlay">
+          <span class="attr-badge">Highlands ★★★★★</span>
+          <span class="attr-tag">Uva Province</span>
+          <h3 class="attr-name">Ella &amp; Nine Arch Bridge</h3>
+          <p class="attr-desc">Emerald rice paddies, the iconic colonial viaduct, train rides through mist and hikes up Little Adam's Peak.</p>
+        </div>
+      </div>
+      <div class="attr-card wide">
+        <img class="attr-img" src="https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=900&q=80" alt="Anuradhapura">
+        <div class="attr-overlay">
+          <span class="attr-badge">UNESCO ★★★★★</span>
+          <span class="attr-tag">North Central Province</span>
+          <h3 class="attr-name">Anuradhapura — Ancient Capital</h3>
+          <p class="attr-desc">Towering white dagobas, the sacred Bodhi Tree (oldest documented tree on Earth) and 2,500 years of continuous civilisation.</p>
+        </div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="attr-card">
+        <img class="attr-img" src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=700&q=80" alt="Mirissa">
+        <div class="attr-overlay">
+          <span class="attr-badge">Coastal ★★★★★</span>
+          <span class="attr-tag">Southern Province</span>
+          <h3 class="attr-name">Mirissa &amp; Whale Watching</h3>
+          <p class="attr-desc">A golden crescent beach famous for blue whale encounters (Dec–Apr) and unforgettable sunset cocktails.</p>
+        </div>
+      </div>
+      <div class="attr-card">
+        <img class="attr-img" src="https://images.unsplash.com/photo-1565791380713-1756b9a05343?w=700&q=80" alt="Nuwara Eliya">
+        <div class="attr-overlay">
+          <span class="attr-badge">Tea Country ★★★★★</span>
+          <span class="attr-tag">Central Province</span>
+          <h3 class="attr-name">Nuwara Eliya — Little England</h3>
+          <p class="attr-desc">Cool colonial hill station surrounded by rolling tea estates, misty waterfalls and English-style gardens at 1,868m altitude.</p>
+        </div>
+      </div>
+      <div class="attr-card">
+        <img class="attr-img" src="https://images.unsplash.com/photo-1571406252241-db0280bd36cd?w=700&q=80" alt="Polonnaruwa">
+        <div class="attr-overlay">
+          <span class="attr-badge">UNESCO ★★★★★</span>
+          <span class="attr-tag">North Central Province</span>
+          <h3 class="attr-name">Polonnaruwa Ruins</h3>
+          <p class="attr-desc">The medieval capital's royal palaces, colossal Buddha statues and lotus-filled moats — cycling through ancient grandeur.</p>
+        </div>
+      </div>
+      <div class="attr-card">
+        <img class="attr-img" src="https://images.unsplash.com/photo-1574108498541-01e2c1e0c91b?w=700&q=80" alt="Adams Peak">
+        <div class="attr-overlay">
+          <span class="attr-badge">Pilgrimage ★★★★★</span>
+          <span class="attr-tag">Sabaragamuwa Province</span>
+          <h3 class="attr-name">Adam's Peak — Sri Pada</h3>
+          <p class="attr-desc">A pre-dawn pilgrimage to a 2,243m sacred summit — the triangular shadow at sunrise is one of earth's most magical moments.</p>
+        </div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="attr-card wide">
+        <img class="attr-img" src="https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=900&q=80" alt="Minneriya">
+        <div class="attr-overlay">
+          <span class="attr-badge">Wildlife ★★★★★</span>
+          <span class="attr-tag">North Central Province</span>
+          <h3 class="attr-name">Minneriya — The Gathering</h3>
+          <p class="attr-desc">The world's largest wild elephant gathering (Aug–Oct) — hundreds of elephants congregate at an ancient reservoir in one breathtaking spectacle.</p>
+        </div>
+      </div>
+      <div class="attr-card">
+        <img class="attr-img" src="https://images.unsplash.com/photo-1568084680786-a84f91d1153c?w=700&q=80" alt="Dambulla">
+        <div class="attr-overlay">
+          <span class="attr-badge">UNESCO ★★★★★</span>
+          <span class="attr-tag">Central Province</span>
+          <h3 class="attr-name">Dambulla Cave Temple</h3>
+          <p class="attr-desc">Five dazzling rock-cave sanctuaries with 150 Buddha statues and vivid ceiling frescoes spanning 2,000 years of devotional art.</p>
+        </div>
+      </div>
+      <div class="attr-card">
+        <img class="attr-img" src="https://images.unsplash.com/photo-1606914501449-5a96b6ce24ca?w=700&q=80" alt="Trincomalee">
+        <div class="attr-overlay">
+          <span class="attr-badge">Coastal ★★★★★</span>
+          <span class="attr-tag">Eastern Province</span>
+          <h3 class="attr-name">Trincomalee &amp; Nilaveli</h3>
+          <p class="attr-desc">Pristine white-sand beaches, crystal-clear snorkelling reefs and the ancient Koneswaram temple perched on Swami Rock.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DESTINATIONS LIST -->
+<section class="destinations" id="destinations">
+  <div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:2rem;">
+      <div class="reveal">
+        <p class="section-label">Plan Your Route</p>
+        <h2 class="section-title">Top <em>Destinations</em><br>to Include</h2>
+      </div>
+    </div>
+    <div class="dest-layout">
+      <div class="dest-list reveal-left">
+
+        <div class="dest-item">
+          <div class="dest-num">01</div>
+          <div class="dest-info"><h3>Sigiriya &amp; Dambulla</h3><p>The Cultural Triangle's crown jewels — sky fortress and cave temples within easy reach of each other in the dry zone heartland.</p></div>
+          <span class="dest-badge">2–3 Days</span>
+        </div>
+        <div class="dest-item">
+          <div class="dest-num">02</div>
+          <div class="dest-info"><h3>Kandy &amp; Peradeniya</h3><p>The last royal capital, the Sacred Tooth Temple, the world-famous botanical gardens and vibrant Kandyan dance performances.</p></div>
+          <span class="dest-badge">2 Days</span>
+        </div>
+        <div class="dest-item">
+          <div class="dest-num">03</div>
+          <div class="dest-info"><h3>Nuwara Eliya Tea Country</h3><p>Climb to Sri Lanka's highest town past cascading waterfalls, colonial bungalows and endless emerald tea estates.</p></div>
+          <span class="dest-badge">2 Days</span>
+        </div>
+        <div class="dest-item">
+          <div class="dest-num">04</div>
+          <div class="dest-info"><h3>Ella &amp; Hill Country Train</h3><p>The most scenic rail journey on earth — board at Kandy or Nanu Oya and ride through cloud-piercing peaks to Ella's waterfalls and viewpoints.</p></div>
+          <span class="dest-badge">2 Days</span>
+        </div>
+        <div class="dest-item">
+          <div class="dest-num">05</div>
+          <div class="dest-info"><h3>Yala &amp; Mirissa South Coast</h3><p>Safari at dawn, then drive west to whale-watch at sea, feast on fresh seafood and watch the sun melt into the Indian Ocean.</p></div>
+          <span class="dest-badge">3 Days</span>
+        </div>
+        <div class="dest-item">
+          <div class="dest-num">06</div>
+          <div class="dest-info"><h3>Galle Fort &amp; Southern Coast</h3><p>Stroll the Dutch ramparts at sunset, browse artisan boutiques and explore sea-turtle nesting beaches at Rekawa.</p></div>
+          <span class="dest-badge">1–2 Days</span>
+        </div>
+        <div class="dest-item">
+          <div class="dest-num">07</div>
+          <div class="dest-info"><h3>Anuradhapura &amp; Polonnaruwa</h3><p>Two ancient capitals in Sri Lanka's sacred north-central zone — cycle past moon stones, moats and giant dagobas at sunset.</p></div>
+          <span class="dest-badge">2 Days</span>
+        </div>
+        <div class="dest-item">
+          <div class="dest-num">08</div>
+          <div class="dest-info"><h3>Colombo City Experience</h3><p>Colonial architecture, craft markets at Pettah, rooftop dining in the Fort district and Gangaramaya Temple's treasure rooms.</p></div>
+          <span class="dest-badge">1 Day</span>
+        </div>
+        <div class="dest-item">
+          <div class="dest-num">09</div>
+          <div class="dest-info"><h3>Trincomalee &amp; East Coast</h3><p>Whales, war-time history, Hindu temples on clifftops and Sri Lanka's most secluded powder-white beaches — the hidden east.</p></div>
+          <span class="dest-badge">3 Days</span>
+        </div>
+        <div class="dest-item">
+          <div class="dest-num">10</div>
+          <div class="dest-info"><h3>Jaffna — Northern Peninsula</h3><p>Tamil culture, ancient Hindu temples, lagoon islands and the vivid, spice-rich cuisine of Sri Lanka's far north.</p></div>
+          <span class="dest-badge">2 Days</span>
+        </div>
+
+      </div>
+      <div class="dest-map-area reveal-right">
+        <div class="dest-img-stack">
+          <img class="dest-img-main" id="destMainImg" src="https://images.unsplash.com/photo-1573678168491-ea99218f6b4e?w=700&q=80" alt="Destination">
+          <img class="dest-img-accent" id="destAccentImg" src="https://images.unsplash.com/photo-1568084680786-a84f91d1153c?w=500&q=80" alt="Destination accent">
+          <div class="dest-img-label" id="destLabel">Sigiriya Rock</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY ROYAL CEYLON -->
+<section class="why" id="why">
+  <div class="container">
+    <p class="section-label reveal">The Royal Ceylon Difference</p>
+    <h2 class="section-title reveal">Why Travellers<br>Choose <em>Us</em></h2>
+    <div class="why-grid">
+      <div class="why-card reveal"><span class="why-icon">🧭</span><h3>Expert Local Guides</h3><p>Our guides are passionate locals who know every hidden temple path, secret viewpoint and roadside gem that never makes it into guidebooks.</p></div>
+      <div class="why-card reveal"><span class="why-icon">✨</span><h3>Fully Tailored Itineraries</h3><p>No two journeys are alike. Every tour is crafted around your interests, pace and style — from immersive backpacking to luxury villa retreats.</p></div>
+      <div class="why-card reveal"><span class="why-icon">🚐</span><h3>Comfortable Private Transfers</h3><p>Air-conditioned private vehicles with experienced, safety-certified drivers from airport arrival to heartfelt farewell.</p></div>
+      <div class="why-card reveal"><span class="why-icon">🏛️</span><h3>Handpicked Accommodations</h3><p>From boutique jungle lodges and tea-estate bungalows to colonial heritage hotels — stays that are an experience in themselves.</p></div>
+      <div class="why-card reveal"><span class="why-icon">📲</span><h3>24/7 WhatsApp Support</h3><p>Real humans, real-time answers — we are always just a message away before, during and after your trip to Sri Lanka.</p></div>
+      <div class="why-card reveal"><span class="why-icon">🌿</span><h3>Responsible &amp; Ethical Tourism</h3><p>We partner with conservation-focused wildlife operators, support local artisans and minimise environmental impact on every journey.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" style="padding-top:7rem; padding-bottom:7rem;">
+  <div class="container">
+    <p class="section-label reveal">Visual Journey</p>
+    <h2 class="section-title reveal">A Glimpse of <em>Paradise</em></h2>
+  </div>
+  <div style="margin-top:3rem; overflow:hidden;">
+    <div class="gallery-row">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1573678168491-ea99218f6b4e?w=400&q=75" alt="Sigiriya" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1606914501449-5a96b6ce24ca?w=400&q=75" alt="Kandy" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=400&q=75" alt="Galle" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&q=75" alt="Beach" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=75" alt="Safari" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=400&q=75" alt="Ella" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1565791380713-1756b9a05343?w=400&q=75" alt="Tea" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1571406252241-db0280bd36cd?w=400&q=75" alt="Ruins" loading="lazy">
+      <!-- dup -->
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1573678168491-ea99218f6b4e?w=400&q=75" alt="Sigiriya" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1606914501449-5a96b6ce24ca?w=400&q=75" alt="Kandy" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=400&q=75" alt="Galle" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&q=75" alt="Beach" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=75" alt="Safari" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=400&q=75" alt="Ella" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1565791380713-1756b9a05343?w=400&q=75" alt="Tea" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1571406252241-db0280bd36cd?w=400&q=75" alt="Ruins" loading="lazy">
+    </div>
+    <div class="gallery-row" style="margin-top:1rem;">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=400&q=75" alt="Sri Lanka" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=400&q=75" alt="Sri Lanka" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1574108498541-01e2c1e0c91b?w=400&q=75" alt="Sri Lanka" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?w=400&q=75" alt="Sri Lanka" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1568084680786-a84f91d1153c?w=400&q=75" alt="Sri Lanka" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1566552881560-0be862a7c445?w=400&q=75" alt="Sri Lanka" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&q=75" alt="Sri Lanka" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&q=75" alt="Sri Lanka" loading="lazy">
+      <!-- dup -->
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=400&q=75" alt="Sri Lanka" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=400&q=75" alt="Sri Lanka" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1574108498541-01e2c1e0c91b?w=400&q=75" alt="Sri Lanka" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?w=400&q=75" alt="Sri Lanka" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1568084680786-a84f91d1153c?w=400&q=75" alt="Sri Lanka" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1566552881560-0be862a7c445?w=400&q=75" alt="Sri Lanka" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&q=75" alt="Sri Lanka" loading="lazy">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&q=75" alt="Sri Lanka" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="container">
+    <p class="section-label reveal">Traveller Stories</p>
+    <h2 class="section-title reveal">Words from Our<br><em>Guests</em></h2>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="testi-quote">"</div>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">Royal Ceylon Tours completely exceeded our expectations. The guide knew every hidden corner of Sigiriya and made us feel like the only visitors there. Absolutely magical from start to finish.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">S</div>
+          <div><div class="testi-name">Sarah M.</div><div class="testi-country">🇬🇧 United Kingdom</div></div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="testi-quote">"</div>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">The Yala safari followed by whale watching in Mirissa in a single day — I still can't believe it. The team arranged everything seamlessly. Sri Lanka through their eyes is extraordinary.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">J</div>
+          <div><div class="testi-name">James &amp; Lisa T.</div><div class="testi-country">🇦🇺 Australia</div></div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="testi-quote">"</div>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">The hill country train ride through misty tea estates was the highlight of our honeymoon. Royal Ceylon arranged a private carriage and it felt like a scene from a film. Unforgettable.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">A</div>
+          <div><div class="testi-name">Aiko &amp; Kenji N.</div><div class="testi-country">🇯🇵 Japan</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / INQUIRE -->
+<section class="cta-section" id="inquire">
+  <div class="cta-bg-text">CEYLON</div>
+  <div class="cta-rings">
+    <div class="cta-ring"></div>
+    <div class="cta-ring"></div>
+    <div class="cta-ring"></div>
+  </div>
+  <div class="container" style="position:relative; z-index:2;">
+    <p class="section-label reveal" style="justify-content:center;">Begin Your Journey</p>
+    <h2 class="section-title reveal">Your Dream <em>Sri Lanka</em><br>Awaits — Inquire Today</h2>
+    <p class="reveal">Tell us your dream and we'll craft the perfect bespoke itinerary.<br>Our team responds within hours via WhatsApp.</p>
+    <div class="reveal">
+      <a href="https://wa.me/97433095774?text=Hello%20Royal%20Ceylon%20Tours!%20I%20am%20interested%20in%20a%20tour%20to%20Sri%20Lanka.%20Please%20share%20more%20information." target="_blank" class="inquire-btn">
+        <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Inquire on WhatsApp
+      </a>
+    </div>
+    <p class="reveal" style="margin-top:2rem; font-size:0.72rem; color:var(--muted);">
+      📞 +974 3309 5774 &nbsp;·&nbsp; Available 7 days a week &nbsp;·&nbsp; Responds within hours
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <span class="logo-top" style="font-size:0.55rem;">Est. Sri Lanka</span>
+          <span class="logo-main">Royal <em>Ceylon</em> Tours</span>
+        </a>
+        <p>Your trusted partner for bespoke Sri Lanka journeys. Built on local knowledge, driven by passion — we make every trip truly unforgettable.</p>
+        <div class="footer-social">
+          <a class="social-btn" href="https://wa.me/97433095774" target="_blank" title="WhatsApp">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+          <a class="social-btn" href="#" title="Instagram">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a class="social-btn" href="#" title="Facebook">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Experiences</h4>
+        <ul>
+          <li><a href="#experiences">Cultural Heritage</a></li>
+          <li><a href="#experiences">Wildlife Safaris</a></li>
+          <li><a href="#experiences">Beach Escapes</a></li>
+          <li><a href="#experiences">Tea Country Trails</a></li>
+          <li><a href="#experiences">Culinary Journeys</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Top Attractions</h4>
+        <ul>
+          <li><a href="#attractions">Sigiriya Rock</a></li>
+          <li><a href="#attractions">Yala Safari</a></li>
+          <li><a href="#attractions">Galle Fort</a></li>
+          <li><a href="#attractions">Ella &amp; Nine Arch</a></li>
+          <li><a href="#attractions">Adam's Peak</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <ul>
+          <li><a href="https://wa.me/97433095774" target="_blank">WhatsApp Chat</a></li>
+          <li><a href="tel:+97433095774">+974 3309 5774</a></li>
+          <li><a href="#inquire">Send an Inquiry</a></li>
+          <li><a href="#">Sri Lanka, South Asia</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Royal Ceylon Tours. All rights reserved.</p>
+      <p>Crafted with ♥ for curious travellers worldwide</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── PRELOADER ──
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('preloader').classList.add('hidden');
+    }, 2000);
+  });
+
+  // ── PARTICLES ──
+  const pContainer = document.getElementById('particles');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 4 + 2;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      animation-duration:${Math.random()*20+15}s;
+      animation-delay:${Math.random()*15}s;
+    `;
+    pContainer.appendChild(p);
+  }
+
+  // ── CURSOR ──
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); ring.classList.add('hover'); });
+    el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); ring.classList.remove('hover'); });
+  });
+
+  // ── NAV SCROLL ──
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 60); });
+
+  // ── HERO SLIDESHOW ──
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots   = document.querySelectorAll('.slide-dot');
+  const numEl  = document.getElementById('slideNum');
+  let cur = 0;
+  function goToSlide(n) {
+    slides[cur].classList.remove('active'); dots[cur].classList.remove('active');
+    cur = n; slides[cur].classList.add('active'); dots[cur].classList.add('active');
+    numEl.textContent = String(cur + 1).padStart(2, '0');
+  }
+  setInterval(() => goToSlide((cur + 1) % slides.length), 5500);
+  dots.forEach((d, i) => d.addEventListener('click', () => goToSlide(i)));
+
+  // ── SCROLL REVEAL ──
+  const allReveal = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+  const revObserver = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 90);
+        revObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  allReveal.forEach(el => revObserver.observe(el));
+
+  // ── COUNT-UP ANIMATION ──
+  const countEls = document.querySelectorAll('[data-count]');
+  const countObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const target = parseInt(e.target.dataset.count);
+        let start = 0;
+        const step = Math.ceil(target / 60);
+        const interval = setInterval(() => {
+          start = Math.min(start + step, target);
+          e.target.textContent = start + (e.target.dataset.count > 100 ? '' : '+');
+          if (start >= target) clearInterval(interval);
+        }, 30);
+        countObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  countEls.forEach(el => countObserver.observe(el));
+
+  // ── DESTINATION IMAGE SWAP ──
+  const destData = [
+    { main:'https://images.unsplash.com/photo-1573678168491-ea99218f6b4e?w=700&q=80', accent:'https://images.unsplash.com/photo-1568084680786-a84f91d1153c?w=500&q=80', label:'Sigiriya & Dambulla' },
+    { main:'https://images.unsplash.com/photo-1606914501449-5a96b6ce24ca?w=700&q=80', accent:'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=500&q=80', label:'Kandy & Peradeniya' },
+    { main:'https://images.unsplash.com/photo-1565791380713-1756b9a05343?w=700&q=80', accent:'https://images.unsplash.com/photo-1574108498541-01e2c1e0c91b?w=500&q=80', label:'Nuwara Eliya' },
+    { main:'https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=700&q=80', accent:'https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=500&q=80', label:'Ella & Nine Arch Bridge' },
+    { main:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80', accent:'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=500&q=80', label:'Yala & Mirissa' },
+    { main:'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=700&q=80', accent:'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=500&q=80', label:'Galle Fort' },
+    { main:'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=700&q=80', accent:'https://images.unsplash.com/photo-1573678168491-ea99218f6b4e?w=500&q=80', label:'Anuradhapura' },
+    { main:'https://images.unsplash.com/photo-1566552881560-0be862a7c445?w=700&q=80', accent:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&q=80', label:'Colombo City' },
+    { main:'https://images.unsplash.com/photo-1571406252241-db0280bd36cd?w=700&q=80', accent:'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=500&q=80', label:'Trincomalee' },
+    { main:'https://images.unsplash.com/photo-1574108498541-01e2c1e0c91b?w=700&q=80', accent:'https://images.unsplash.com/photo-1568084680786-a84f91d1153c?w=500&q=80', label:'Jaffna' },
+  ];
+  const mainImg = document.getElementById('destMainImg');
+  const accentImg = document.getElementById('destAccentImg');
+  const labelEl = document.getElementById('destLabel');
+  document.querySelectorAll('.dest-item').forEach((item, i) => {
+    item.addEventListener('mouseenter', () => {
+      if (!destData[i]) return;
+      mainImg.style.opacity = '0'; accentImg.style.opacity = '0'; labelEl.style.opacity = '0';
+      setTimeout(() => {
+        mainImg.src = destData[i].main; accentImg.src = destData[i].accent; labelEl.textContent = destData[i].label;
+        mainImg.style.opacity = '1'; accentImg.style.opacity = '1'; labelEl.style.opacity = '1';
+      }, 300);
+    });
+  });
+</script>
+</body>
+</html>
